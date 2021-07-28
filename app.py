@@ -25,7 +25,7 @@ def get_token(code):
         "Accept": "application/json"
     }
     response = requests.request("POST", GITHUB_TOKEN_URL, headers=headers, data=body)
-    return response.json()
+    return response.json()["access_token"]
 
 def get_user_info(token):
     url = f"{GITHUB_API}/user"
@@ -39,6 +39,7 @@ def get_user_info(token):
 def get_team_id(pat, team_slug):
     url = f"{GITHUB_API}/orgs/{ORG_LOGIN}/teams/{team_slug}"
     headers = {
+        "Authorization": f"Bearer {pat}",
         "Accept": "application/vnd.github.v3+json"
     }
     response = requests.request("GET", url, headers=headers)
@@ -69,14 +70,14 @@ def check_invite():
     code = flask.request.args.get("code")
     token = get_token(code)
     user_info = get_user_info(token)
-    if user_info["email"] == "null":
+    if user_info["email"] is None:
         return {
             "success": False,
             "error": "Missing email",
             "description": "Please make your GitHub primary email address public\
 so we can verify that you are an ESI member"
         }
-    email_domain = user_info["email"].split("@")
+    email_domain = user_info["email"].split("@")[1]
     if email_domain != "esi.dz":
         return {
             "success": False,
@@ -85,7 +86,7 @@ so we can verify that you are an ESI member"
 must be an ESI email"
         }
     pat = os.environ.get("ORG_PAT")
-    team_id = get_team_id(INV_TEAM)
+    team_id = get_team_id(pat, INV_TEAM)
     invite_user(pat, user_info['id'], [team_id])
     return {
         "success": True,
