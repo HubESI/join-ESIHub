@@ -1,7 +1,6 @@
 import os
 import flask
 from flask import Flask
-import logging
 import requests
 import json
 
@@ -15,10 +14,10 @@ INV_TEAM = "base-team"
 
 def get_token(code):
     body = json.dumps({
-        "client_id": os.environ.get("CLIENT_ID"),
-        "client_secret": os.environ.get("CLIENT_SECRET"),
+        "client_id": os.environ["CLIENT_ID"],
+        "client_secret": os.environ["CLIENT_SECRET"],
         "code": code,
-        "redirect_uri": "{}/check".format(os.environ.get("APP_URL"))
+        "redirect_uri": "{}/check".format(os.environ["APP_URL"])
     })
     headers = {
         "Content-Type": "application/json",
@@ -74,7 +73,7 @@ def check_invite():
         return {
             "success": False,
             "error": "Missing email",
-            "description": "Please make your GitHub primary email address public\
+            "description": "Please make your GitHub email address public\
 so we can verify that you are an ESI member"
         }
     email_domain = user_info["email"].split("@")[1]
@@ -82,10 +81,10 @@ so we can verify that you are an ESI member"
         return {
             "success": False,
             "error": "Outside ESI email",
-            "description": "To join ESIHub org your GitHub primary email address\
+            "description": "To join ESIHub org your GitHub email address\
 must be an ESI email"
         }
-    pat = os.environ.get("ORG_PAT")
+    pat = os.environ["ORG_PAT"]
     team_id = get_team_id(pat, INV_TEAM)
     invite_user(pat, user_info['id'], [team_id])
     return {
