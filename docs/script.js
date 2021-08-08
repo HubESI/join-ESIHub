@@ -7,6 +7,7 @@ if(url_params.has("code")){
         .then((data) => {
             if(data.success) window.location.replace("http://www.github.com");
             else{
+                const alert = document.getElementById("join-with-gh");
                 alert.style.color = "red";
                 alert.innerHTML = data.description;
             }
@@ -20,7 +21,7 @@ if(url_params.has("code")){
 
 btn.addEventListener('click', () => {
     const email_field = document.querySelector(".input");
-    const alert = document.querySelector(".alert");
+    const alert = document.getElementById("join-with-email")
     if (email_field.value.split("@")[1] !== "esi.dz"){
         alert.style.color = "red";
         alert.innerHTML = "Please provide your @esi.dz email";
