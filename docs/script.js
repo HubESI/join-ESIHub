@@ -7,7 +7,7 @@ btn.addEventListener('click', () => {
         email_field.value = "@esi.dz";
     }
     else{
-        fetch(`http://127.0.0.1:5000/check?email=${email_field.value}`)
+        fetch(`https://esihub.herokuapp.com/check?email=${email_field.value}`)
         .then((response) => response.json())
         .then((data) => {
             alert.style.color = "green";
