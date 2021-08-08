@@ -2,12 +2,12 @@ const API_URL = "https://esihub.herokuapp.com";
 
 const url_params = new URLSearchParams(window.location.search);
 if(url_params.has("code")){
+    const alert = document.getElementById("join-with-gh");
     fetch(`${API_URL}/check?code=${url_params.get("code")}`)
         .then((response) => response.json())
         .then((data) => {
             if(data.success) window.location.replace("http://www.github.com");
             else{
-                const alert = document.getElementById("join-with-gh");
                 alert.style.color = "red";
                 alert.innerHTML = data.description;
             }

@@ -22,7 +22,7 @@ def check_invite():
             return {
                 "success": False,
                 "error": "Missing email",
-                "description": "Please make your GitHub email address public\
+                "description": "Please make your GitHub email address public \
 so we can verify that you are an ESI member"
             }
         email_domain = user_info["email"].split("@")[1]
@@ -30,7 +30,7 @@ so we can verify that you are an ESI member"
             return {
                 "success": False,
                 "error": "Outside ESI email",
-                "description": "To join ESIHub org your GitHub email address\
+                "description": "To join ESIHub org your GitHub email address \
 must be an ESI email"
             }
         pat = os.environ["ORG_PAT"]
@@ -47,7 +47,7 @@ must be an ESI email"
             return {
                 "success": False,
                 "error": "Outside ESI email",
-                "description": "To join ESIHub org your GitHub email address\
+                "description": "To join ESIHub org your GitHub email address \
 must be an ESI email"
             }
         pat = os.environ["ORG_PAT"]
