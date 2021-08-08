@@ -10,19 +10,22 @@
 <body>
     <div class="container">
         <div class="container-green">
-            <div class="title">ESI.HUB</div>
-            <div class="subtitle">Join #esi_hub organisation in Github</div>
+            <div class="title">ESIHUB</div>
+            <div class="subtitle">Join ESIHub organisation in Github</div>
             <div class="dotted"></div>
-            <a href="#" class="github"> Sign in with github account <img src="Octicons-mark-github.svg" alt=""></a>
+            <a href="https://github.com/login/oauth/authorize?client_id=4b075558ec649cd31f71&
+redirect_uri=https://esihub.herokuapp.com/check&scope=user:email&allow_signup=false"
+                class="github">
+                Sign in with github account <img src="Octicons-mark-github.svg" alt="">
+            </a>
             <div class="or">
                 Or
-                
             </div>
             <div class="bar">
             </div>
             
             <form class="mail" action="#" method="POST" >
-                <div class="label">Add your #esi_mail</div>
+                <div class="label">Add your esi email</div>
                 <input class="input" type="text" name="email" placeholder="example@esi.dz" value="@esi.dz">
                 <div class="alert"></div>
                 <div type="submit" class="btn" id="btn">Submit</div>
@@ -32,7 +35,5 @@
         
     </div>
     <script src="script.js"></script>
-
-   
 </body>
 </html>

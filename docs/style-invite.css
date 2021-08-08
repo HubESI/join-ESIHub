@@ -181,8 +181,6 @@ input:focus{
     outline : none;
 }
 
-
-
 @media(min-width:500px){
     .title{
         margin-top: 12vh;
