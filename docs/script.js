@@ -6,7 +6,7 @@ if(url_params.has("code")){
     fetch(`${API_URL}/check?code=${url_params.get("code")}`)
         .then((response) => response.json())
         .then((data) => {
-            if(data.success) window.location.replace("http://www.github.com");
+            if(data.success) window.location.replace("https://github.com/HubESI");
             else{
                 alert.style.color = "red";
                 alert.innerHTML = data.description;
