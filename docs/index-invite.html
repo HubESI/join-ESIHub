@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style-invite.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="container-green">
+            <div class="title">ESIHUB</div>
+            <div class="subtitle">Join ESIHub organisation in Github</div>
+            <div class="dotted"></div>
+            <a href="https://github.com/login/oauth/authorize?client_id=4b075558ec649cd31f71&
+redirect_uri=https://hubesi.github.io/join-ESIHub/index-invite&scope=user:email&allow_signup=false"
+                class="github">
+                Sign in with github account <img src="Octicons-mark-github.svg" alt="">
+            </a>
+            <div class="alert" id="join-with-gh"></div>
+            <div class="or">
+                Or
+            </div>
+            <div class="bar">
+            </div>
+            <form class="mail">
+                <div class="label">Add your esi email</div>
+                <input class="input" type="text" name="email" placeholder="example@esi.dz" value="@esi.dz">
+                <div class="alert" id="join-with-email"></div>
+                <div type="submit" class="btn" id="btn">Submit</div>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

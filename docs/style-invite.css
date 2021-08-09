@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/hk-grotesk.min.css");
+
+
+:root{
+    /* --color-background :#66C273;
+    --color-text: white; */
+
+    --color-background :white;
+    --color-text: black;
+}
+
+*{
+    box-sizing: border-box;
+    /* font-family: 'Roboto',sans-serif; */
+    font-family: 'HK Grotesk', sans-serif;
+}
+
+
+.container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* overflow:scroll; */
+}
+
+.container-green {
+    background-color: var(--color-background);
+    width: 60%;
+    height: 90vh;
+    /* max-width: 340px; */
+    max-width: 90vw;
+    /* min-height: 450px; */
+    /* border: 0px; */
+    border-top: 8px solid var(--color-text);
+    border-bottom: 8px solid var(--color-text);
+    border-radius: 10px;
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;  
+    /* position: absolute; */
+    /* margin-bottom: 0px;  */
+    overflow: visible;
+    
+}
+
+.title{
+    font-weight: bold;
+    /* font-size: 2.1em; */
+    font-size: 10vw;
+    /* position: relative; */
+    /* bottom: 8%; */
+    margin-top: 10vh;
+}
+
+
+
+.subtitle{
+    font-size: 8vw;
+    /* position: relative;
+    bottom: 5%; */
+    text-align: center;
+    margin-top: 3vh;
+}
+
+.dotted{
+    /* display: inline; */
+    margin-top: 5vh;
+    border-top: dotted var(--color-text) 2vw;
+    width: 30%;
+}
+
+.github{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    /* position: relative;
+    top: 3%; */
+    /* background-color: var(--color-text); */
+    /* color: var(--color-background); */
+    border-radius: 5px;
+    padding: 0.2rem 1em;
+    text-decoration: none;
+    font-weight:700;
+    margin-top: 5vh;
+    border : 1px var(--color-text) solid;
+    color: var(--color-text);
+
+
+}
+
+img {
+    width: 3vw;
+    background-color: white;
+    /* border-radius: 10px ; */
+    margin-left: 10px;
+}
+
+.or {
+    /* position: relative;
+    top: 8%; */
+    z-index:2;
+    background-color: var(--color-background);
+    padding: 0 0.5em;
+    margin-top: 3vh;
+
+}
+
+.bar{
+    background-color: var(--color-text);
+    height: 0.5vw;
+    width: 50%;
+    position: relative;
+    bottom: 2%;
+}
+/* .fifth {
+    position: relative;
+    top: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    max-width: 90wv;
+} */
+
+
+
+.mail {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;   
+}
+
+.label {
+    font-size: 5vw;
+    text-align: center;
+    margin-top: 1.5vh;
+}
+
+.input{
+    margin-top: 2vh;
+    font-size: 1.1em;    
+    border : 0px white solid;
+    border-radius: 5px;
+    max-width: 90vw;
+    text-align: center;
+    /* color: black; */
+    /* color: var(--color-background); */
+    /* background-color: var(--color-text); */
+    border : 2px var(--color-text) solid;
+    color: var(--color-text);
+
+}
+
+
+.btn{
+    margin-top: 2vh;
+    font-size: 1.1em;
+    /* font-weight: 100; */
+    padding: 0.1em 0.4em;
+    color: var(--color-background);
+    background-color: var(--color-text);
+    border : 3px var(--color-text) solid;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.btn:hover , .github:hover , .input:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+input:focus{
+    outline : none;
+}
+
+@media(min-width:500px){
+    .title{
+        margin-top: 12vh;
+        font-size: 60px;
+    } 
+    .subtitle,.label{ 
+        font-size: 30px;
+    } 
+
+}
+
+@media(max-width:500px){
+    .container-green{
+        width: 95vw;
+    }
+
+    .github{
+        font-size: 12px;
+    }
+
+
+    .input{
+        max-width: 80vw;
+
+    }
+        
+}

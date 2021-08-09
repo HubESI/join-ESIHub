@@ -1,14 +1,14 @@
 import os
 import requests
 import json
-from config import GITHUB_TOKEN_URL, GITHUB_API, ORG_LOGIN
+from config import GITHUB_TOKEN_URL, GITHUB_API, ORG_LOGIN, AUTH_CALLBACK_URL
 
 def get_token(code):
     body = json.dumps({
         "client_id": os.environ["CLIENT_ID"],
         "client_secret": os.environ["CLIENT_SECRET"],
         "code": code,
-        "redirect_uri": "{}/check".format(os.environ["APP_URL"])
+        "redirect_uri": AUTH_CALLBACK_URL
     })
     headers = {
         "Content-Type": "application/json",
@@ -40,6 +40,20 @@ def invite_user(pat, user_id, teams_ids):
     url = f"{GITHUB_API}/orgs/{ORG_LOGIN}/invitations"
     body = json.dumps({
         "invitee_id": user_id,
+        "team_ids": teams_ids
+    })
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {pat}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    response = requests.request("POST", url, headers=headers, data=body)
+    return response.json()
+
+def invite_email(pat, email, teams_ids):
+    url = f"{GITHUB_API}/orgs/{ORG_LOGIN}/invitations"
+    body = json.dumps({
+        "email": email,
         "team_ids": teams_ids
     })
     headers = {
