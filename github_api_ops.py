@@ -1,14 +1,14 @@
 import os
 import requests
 import json
-from config import GITHUB_TOKEN_URL, GITHUB_API, ORG_LOGIN, AUTH_CALLBACK_URL
+from config import GITHUB_TOKEN_URL, GITHUB_API, ORG_LOGIN
 
 def get_token(code):
     body = json.dumps({
         "client_id": os.environ["CLIENT_ID"],
         "client_secret": os.environ["CLIENT_SECRET"],
         "code": code,
-        "redirect_uri": AUTH_CALLBACK_URL
+        "redirect_uri": os.environ["AUTH_CALLBACK_URL"]
     })
     headers = {
         "Content-Type": "application/json",
