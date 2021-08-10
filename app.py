@@ -6,7 +6,7 @@ from config import INV_TEAM, JOIN_ESI_HUB_GP_LINK
 from github_api_ops import get_token, get_user_info, get_team_id, invite_user, invite_email
 
 app = Flask(__name__)
-CORS(app, ressources={r'*': {'origins': '*'}})
+CORS(app, ressources={r'*': {'origins': ['https://hubesi.github.io']}})
 
 @app.route("/")
 def hello():
