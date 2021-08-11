@@ -41,7 +41,7 @@ please verify it so you can join"
         }
     pat = os.environ["ORG_PAT"]
     team_id = get_team_id(pat, INV_TEAM)
-    invite_user(pat, get_user_info['id'], [team_id])
+    invite_user(pat, get_user_info(token)['id'], [team_id])
     return {
         "success": True,
         "description": "An invitation to join the org has been sent to you"
