@@ -26,6 +26,15 @@ def get_user_info(token):
     response = requests.request("GET", url, headers=headers)
     return response.json()
 
+def get_user_emails(token):
+    url = f"{GITHUB_API}/user/emails"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    response = requests.request("GET", url, headers=headers)
+    return response.json()
+
 def get_team_id(pat, team_slug):
     url = f"{GITHUB_API}/orgs/{ORG_LOGIN}/teams/{team_slug}"
     headers = {
@@ -40,20 +49,6 @@ def invite_user(pat, user_id, teams_ids):
     url = f"{GITHUB_API}/orgs/{ORG_LOGIN}/invitations"
     body = json.dumps({
         "invitee_id": user_id,
-        "team_ids": teams_ids
-    })
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {pat}",
-        "Accept": "application/vnd.github.v3+json"
-    }
-    response = requests.request("POST", url, headers=headers, data=body)
-    return response.json()
-
-def invite_email(pat, email, teams_ids):
-    url = f"{GITHUB_API}/orgs/{ORG_LOGIN}/invitations"
-    body = json.dumps({
-        "email": email,
         "team_ids": teams_ids
     })
     headers = {
