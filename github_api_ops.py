@@ -26,6 +26,15 @@ def get_user_info(token):
     response = requests.request("GET", url, headers=headers)
     return response.json()
 
+def get_user_emails(token):
+    url = f"{GITHUB_API}/user/emails"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    response = requests.request("GET", url, headers=headers)
+    return response.json()
+
 def get_team_id(pat, team_slug):
     url = f"{GITHUB_API}/orgs/{ORG_LOGIN}/teams/{team_slug}"
     headers = {
