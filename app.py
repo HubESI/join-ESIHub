@@ -4,7 +4,7 @@ from flask import Flask, abort
 from flask_cors import CORS
 from config import INV_TEAM, JOIN_ESI_HUB_GP_LINK
 from github_api_ops import get_token, get_user_emails, get_user_info, get_team_id, invite_user
-from error_handler import ApiError, not_enough_permissions
+from api_errors import ApiError, not_enough_permissions
 
 app = Flask(__name__)
 CORS(app, ressources={r'*': {'origins': ['https://hubesi.github.io']}})
