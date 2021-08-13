@@ -15,7 +15,7 @@ def get_token(code):
         "Accept": "application/json"
     }
     response = requests.request("POST", GITHUB_TOKEN_URL, headers=headers, data=body)
-    return response.json()["access_token"]
+    return response.json()
 
 def get_user_info(token):
     url = f"{GITHUB_API}/user"

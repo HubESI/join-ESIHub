@@ -4,6 +4,7 @@ from flask import Flask, abort
 from flask_cors import CORS
 from config import INV_TEAM, JOIN_ESI_HUB_GP_LINK
 from github_api_ops import get_token, get_user_emails, get_user_info, get_team_id, invite_user
+from error_handler import ApiError, not_enough_permissions
 
 app = Flask(__name__)
 CORS(app, ressources={r'*': {'origins': ['https://hubesi.github.io']}})
@@ -23,7 +24,11 @@ def check_invite():
         abort(400)
     code = flask.request.args.get("code")
     token = get_token(code)
-    user_emails = get_user_emails(token)
+    if "error" in token:
+        raise ApiError(403, token["error"], token["error_description"])
+    if "user:email" not in token["scope"].split(","):
+        raise not_enough_permissions
+    user_emails = get_user_emails(token["access_token"])
     esi_email = get_esi_email(user_emails)
     if esi_email is None:
         return {
@@ -46,3 +51,7 @@ please verify it so you can join"
         "success": True,
         "description": "An invitation to join the org has been sent to you"
     }
+
+@app.errorhandler(ApiError)
+def handle_apierror(e):
+    return e.to_dict(), e.status_code
