@@ -16,3 +16,9 @@ not_enough_permissions = ApiError(
     "not_enough_permissions", 
     "The code passed doesn't grant enough permissions, 'user:email' scope is required"
     )
+
+code_not_provided = ApiError(
+    400,
+    "code_not_provided",
+    "No code was passed in the query string"
+)
