@@ -1,6 +1,5 @@
 import os
-import flask
-from flask import Flask, abort
+from flask import Flask, redirect, request
 from flask_cors import CORS
 from config import INV_TEAM, JOIN_ESI_HUB_GP_LINK
 from github_api_ops import get_token, get_user_emails, get_user_info, get_team_id, invite_user
@@ -17,13 +16,13 @@ def get_esi_email(emails):
 
 @app.route("/")
 def hello():
-    return flask.redirect(JOIN_ESI_HUB_GP_LINK)
+    return redirect(JOIN_ESI_HUB_GP_LINK)
 
 @app.route("/check")
 def check_invite():
-    if "code" not in flask.request.args:
+    if "code" not in request.args:
         raise code_not_provided
-    code = flask.request.args.get("code")
+    code = request.args.get("code")
     token = get_token(code)
     if "error" in token:
         raise ApiError(403, token["error"], token["error_description"])
