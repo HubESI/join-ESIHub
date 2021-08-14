@@ -18,7 +18,7 @@ def get_esi_email(emails):
 def hello():
     return redirect(JOIN_ESI_HUB_GP_LINK)
 
-@app.route("/check")
+@app.route("/invite")
 def check_invite():
     if "code" not in request.args:
         raise code_not_provided
