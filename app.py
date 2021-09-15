@@ -1,61 +1,56 @@
 import os
-import flask
-from flask import Flask, abort
+from flask import Flask, redirect, request
 from flask_cors import CORS
 from config import INV_TEAM, JOIN_ESI_HUB_GP_LINK
-from github_api_ops import get_token, get_user_info, get_team_id, invite_user, invite_email
+from github_api_ops import get_token, get_user_emails, get_user_info, get_team_id, invite_user
+from api_errors import ApiError, CheckResult, not_enough_permissions, code_not_provided, \
+esi_email_not_found, esi_email_not_verified
 
 app = Flask(__name__)
 CORS(app, ressources={r'*': {'origins': ['https://hubesi.github.io']}})
 
+def get_esi_email(emails):
+    for email_dict in emails:
+        if email_dict["email"].split("@")[1] == "esi.dz":
+            return email_dict
+
 @app.route("/")
 def hello():
-    return flask.redirect(JOIN_ESI_HUB_GP_LINK)
+    return redirect(JOIN_ESI_HUB_GP_LINK)
 
-@app.route("/check")
+@app.route("/invite")
 def check_invite():
-    if "code" in flask.request.args:
-        code = flask.request.args.get("code")
-        token = get_token(code)
-        user_info = get_user_info(token)
-        if user_info["email"] is None:
-            return {
-                "success": False,
-                "error": "Missing email",
-                "description": "Please make your GitHub email address public \
-so we can verify that you are an ESI member"
-            }
-        email_domain = user_info["email"].split("@")[1]
-        if email_domain != "esi.dz":
-            return {
-                "success": False,
-                "error": "Outside ESI email",
-                "description": "To join ESIHub org your GitHub email address \
-must be an ESI email"
-            }
-        pat = os.environ["ORG_PAT"]
-        team_id = get_team_id(pat, INV_TEAM)
-        invite_user(pat, user_info['id'], [team_id])
-        return {
-            "success": True,
-            "description": "An invitation to join the org has been sent to you"
-        }
-    elif "email" in flask.request.args:
-        email = flask.request.args.get("email")
-        email_domain = email.split("@")[1]
-        if email_domain != "esi.dz":
-            return {
-                "success": False,
-                "error": "Outside ESI email",
-                "description": "To join ESIHub org your GitHub email address \
-must be an ESI email"
-            }
-        pat = os.environ["ORG_PAT"]
-        team_id = get_team_id(pat, INV_TEAM)
-        invite_email(pat, email, [team_id])
-        return {
-            "success": True,
-            "description": "An invitation to join the org has been sent to you"
-        }
-    else:
-        abort(400)
+    if "code" not in request.args:
+        raise code_not_provided
+    code = request.args.get("code")
+    token = get_token(code)
+    if "error" in token:
+        raise ApiError(403, token["error"], token["error_description"])
+    if "user:email" not in token["scope"].split(","):
+        raise not_enough_permissions
+    user_emails = get_user_emails(token["access_token"])
+    esi_email = get_esi_email(user_emails)
+    user_info = get_user_info(token["access_token"])
+    if esi_email is None:
+        esi_email_not_found.gh_user = user_info["login"]
+        raise esi_email_not_found
+    if not esi_email["verified"]:
+        esi_email_not_verified.gh_user = user_info["login"]
+        raise esi_email_not_verified
+    pat = os.environ["ORG_PAT"]
+    team_id = get_team_id(pat, INV_TEAM)
+    invite_user(pat, user_info['id'], [team_id])
+    return CheckResult(
+        200,
+        True,
+        user_info["login"],
+        "An invitation to join the org has been created"
+    ).to_dict(), 200
+
+@app.errorhandler(ApiError)
+def handle_apierror(e):
+    return e.to_dict(), e.status_code
+
+@app.errorhandler(CheckResult)
+def handle_apierror(e):
+    return e.to_dict(), e.status_code
